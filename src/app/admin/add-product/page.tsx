@@ -32,13 +32,13 @@ export default function AddProductPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...formData,
-          price: parseFloat(formData.price), // конвертуємо ціну в число
+          price: parseFloat(formData.price), 
         }),
       });
 
       if (response.ok) {
         toast.success('Товар успішно додано!');
-        router.push('/'); // перенаправити на головну або список товарів
+        router.push('/'); 
       } else {
         const data = await response.json();
         toast.error(data.error || 'Помилка при додаванні товару');

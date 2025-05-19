@@ -1,21 +1,21 @@
 import { NextResponse } from 'next/server';
-import User from '@/models/User'; // твоя модель User
-import connectDB from '@/db/connect'; // функція для підключення до MongoDB
+import User from '@/models/User'; 
+import connectDB from '@/db/connect'; 
 
 export async function POST(req: Request) {
   try {
-    await connectDB(); // Підключаємо базу даних
+    await connectDB(); 
 
-    const { firstName, lastName, email, password } = await req.json(); // Дістаємо дані
+    const { firstName, lastName, email, password } = await req.json();
 
-    // Перевіряємо чи користувач існує
+    
     const existingUser = await User.findOne({ email });
 
     if (existingUser) {
       return NextResponse.json({ message: 'Такий email вже використовується' }, { status: 400 });
     }
 
-    // Створюємо нового користувача
+    
     const newUser = new User({ firstName, lastName, email, password });
     await newUser.save();
 

@@ -7,29 +7,7 @@ import ProductCard from '../components/ProductCard';
 import { useCart } from '../../context/CartContext'; // Імпортуємо контекст для кошика
 import { useRouter } from 'next/router';
 
-const products = [
-  { 
-    id: '1', 
-    title: 'Футболка UrbanWear', 
-    price: 499, 
-    description: 'Стильна футболка для міського життя.', 
-    imageUrl: 'https://via.placeholder.com/300' 
-  },
-  { 
-    id: '2', 
-    title: 'Куртка UrbanWear', 
-    price: 1599, 
-    description: 'Тепла куртка для зими.', 
-    imageUrl: 'https://via.placeholder.com/300' 
-  },
-  { 
-    id: '3', 
-    title: 'Штани UrbanWear', 
-    price: 799, 
-    description: 'Комфортні штани для щоденного використання.', 
-    imageUrl: 'https://via.placeholder.com/300' 
-  },
-];
+const products: any[] = [];
 
 export default function HomePage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);

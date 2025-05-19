@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 
 export default function HomePage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [products, setProducts] = useState<any[]>([]); // Замість масиву products
+  const [products, setProducts] = useState<any[]>([]); 
   const { cart, addToCart } = useCart();
   const [isClient, setIsClient] = useState(false);
   const router = useRouter();
@@ -57,36 +57,53 @@ export default function HomePage() {
 
   return (
     <main className="p-8 max-w-7xl mx-auto">
-      <h1 className="text-4xl font-bold mb-8 text-center">SportShop Магазин</h1>
+    <h1 className="text-5xl font-extrabold text-center mb-10 text-transparent bg-clip-text bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 drop-shadow-lg">
+      SportShop
+    </h1>
 
       {!isLoggedIn ? (
-        <div className="text-center mb-8">
-          <Link href="/login" className="bg-blue-500 text-white px-3 py-3 rounded hover:bg-blue-600 mx-2">
-            Увійти
-          </Link>
-          <Link href="/register" className="bg-blue-500 text-white px-3 py-3 rounded hover:bg-blue-600 mx-2">
-            Реєстрація
-          </Link>
-        </div>
+        <div className="flex justify-center gap-4 mb-10">
+  <Link
+    href="/login"
+    className="px-6 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold shadow-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-300"
+  >
+    Увійти
+  </Link>
+  <Link
+    href="/register"
+    className="px-6 py-3 rounded-lg bg-gradient-to-r from-green-500 to-emerald-600 text-white font-semibold shadow-lg hover:from-green-600 hover:to-emerald-700 transition-all duration-300"
+  >
+    Реєстрація
+  </Link>
+</div>
       ) : (
-        <div className="flex justify-between items-center px-4 mb-8">
+        <div className="flex justify-between items-center px-6 mb-10">
   {/* Ліва кнопка — Вийти */}
   <button
     onClick={handleLogout}
-    className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+    className="px-5 py-2 rounded-lg bg-gradient-to-r from-red-500 to-red-600 text-white font-semibold shadow-md hover:from-red-600 hover:to-red-700 transition-all duration-300"
   >
     Вийти
   </button>
 
   {/* Праві кнопки */}
-  <div className="flex space-x-2">
-    <Link href="/account" className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+  <div className="flex gap-3">
+    <Link
+      href="/account"
+      className="px-5 py-2 rounded-lg bg-gradient-to-r from-green-500 to-emerald-600 text-white font-semibold shadow-md hover:from-green-600 hover:to-emerald-700 transition-all duration-300"
+    >
       Налаштування акаунта
     </Link>
-    <Link href="/cart" className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+    <Link
+      href="/cart"
+      className="px-5 py-2 rounded-lg bg-gradient-to-r from-green-500 to-emerald-600 text-white font-semibold shadow-md hover:from-green-600 hover:to-emerald-700 transition-all duration-300"
+    >
       Кошик ({cart.length})
     </Link>
-    <Link href="/orders" className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+    <Link
+      href="/orders"
+      className="px-5 py-2 rounded-lg bg-gradient-to-r from-green-500 to-emerald-600 text-white font-semibold shadow-md hover:from-green-600 hover:to-emerald-700 transition-all duration-300"
+    >
       Мої замовлення
     </Link>
   </div>

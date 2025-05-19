@@ -14,7 +14,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: 'Користувача не знайдено' }, { status: 404 });
     }
 
-    if (user.password !== password) { // Поки що без шифрування паролю
+    if (user.password !== password) { 
       return NextResponse.json({ message: 'Невірний пароль' }, { status: 401 });
     }
 
