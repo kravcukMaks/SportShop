@@ -4,21 +4,21 @@ import User from '@/models/User';
 
 export async function PUT(req: Request) {
   try {
-    // Спочатку підключаємося до бази
+    
     await connectDB();
 
-    // Забираємо дані з запиту
+    
     const { firstName, lastName, email, password } = await req.json();
 
     if (!email) {
       return NextResponse.json({ error: 'Email обовʼязковий для оновлення.' }, { status: 400 });
     }
 
-    // Оновлюємо користувача за email
+    
     const updatedUser = await User.findOneAndUpdate(
-      { email }, // шукаємо за email
-      { firstName, lastName, password }, // нові дані
-      { new: true } // повернути новий документ після оновлення
+      { email }, 
+      { firstName, lastName, password }, 
+      { new: true } 
     );
 
     if (!updatedUser) {

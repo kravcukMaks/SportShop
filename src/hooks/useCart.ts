@@ -1,4 +1,4 @@
-// src/hooks/useCart.ts
+
 import { useState } from 'react';
 
 export default function useCart() {

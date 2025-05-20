@@ -1,7 +1,7 @@
-// src/app/layout.tsx
+
 import connectDB from '../db/connect';
 
-// Виклик підключення до MongoDB
+
 connectDB();
 
 import { CartProvider } from '../context/CartContext';
@@ -22,7 +22,7 @@ const geistMono = Geist_Mono({
 
 export const metadata = {
   title: 'SportShop - Інтернет магазин',
-  description: 'Стильний міський одяг для кожного дня.',
+  description: 'Товари для спорту.',
 };
 
 export default function RootLayout({

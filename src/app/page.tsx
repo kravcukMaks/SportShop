@@ -21,7 +21,7 @@ export default function HomePage() {
       setIsLoggedIn(true);
     }
 
-    fetchProducts(); // Завантажити товари з бази
+    fetchProducts();
   }, []);
 
   const fetchProducts = async () => {
@@ -116,7 +116,7 @@ export default function HomePage() {
           <ProductCard 
             key={product._id} 
             id={product._id}
-            name={product.title} // Бере title з бази
+            name={product.title} 
             price={product.price}
             description={product.description}
             image={product.imageUrl}

@@ -2,8 +2,8 @@
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-100 text-center py-4 mt-12 text-gray-600 text-sm">
-      © {new Date().getFullYear()} SportShop. Всі права захищені.
-    </footer>
+    <footer className="bg-gray-50 text-center py-6 mt-16 text-gray-500 text-sm border-t border-gray-200 shadow-sm">
+  © {new Date().getFullYear()} <span className="font-semibold text-gray-700">SportShop</span>. Всі права захищені.
+</footer>
   );
 }

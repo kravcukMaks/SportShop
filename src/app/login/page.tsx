@@ -30,7 +30,7 @@ export default function LoginPage() {
         if (response.ok) {
           toast.success(data.message);
       
-          // Зберігаємо статус авторизації
+          
           localStorage.setItem('isLoggedIn', 'true');
       
           router.push('/');

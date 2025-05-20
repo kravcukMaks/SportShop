@@ -13,7 +13,7 @@ export default async function connectDB() {
 
   if (!cached.promise) {
     cached.promise = mongoose.connect(MONGODB_URI, {
-      dbName: 'sportshop', // або як ти назвав свою БД
+      dbName: 'sportshop', 
       bufferCommands: false,
     }).then((mongoose) => mongoose);
   }

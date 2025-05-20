@@ -3,10 +3,10 @@
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation'; // Додаємо useRouter
+import { useRouter } from 'next/navigation'; 
 
 export default function RegisterPage() {
-  const router = useRouter(); // Ініціалізуємо router
+  const router = useRouter(); 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -34,10 +34,10 @@ export default function RegisterPage() {
       if (response.ok) {
         toast.success(data.message);
 
-        // Зберігаємо статус авторизації
+        
         localStorage.setItem('isLoggedIn', 'true');
 
-        // Перекидуємо на головну
+        
         router.push('/');
       } else {
         toast.error(data.message);
@@ -48,8 +48,11 @@ export default function RegisterPage() {
   };
 
   return (
-    <main className="p-8 max-w-xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6">Реєстрація</h1>
+    <main className="max-w-xl mx-auto p-8 bg-white rounded-2xl shadow-md mt-12">
+    <h1 className="text-4xl font-extrabold mb-8 text-center text-gray-800">
+    Реєстрація
+    </h1>
+
       <form className="space-y-4" onSubmit={handleSubmit}>
         <div>
           <label htmlFor="firstName" className="block text-gray-700">Ім’я</label>
@@ -96,16 +99,24 @@ export default function RegisterPage() {
           />
         </div>
         <button
-          type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+        type="submit"
+        className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-6 py-3 rounded-xl shadow-md hover:from-blue-600 hover:to-indigo-700 transition duration-300 font-semibold"
         >
-          Зареєструватися
+         Зареєструватися
         </button>
+
       </form>
 
-      <p className="mt-4 text-gray-600">
-        Уже є акаунт? <Link href="/login" className="text-blue-500">Увійти</Link>
+      <p className="mt-6 text-sm text-gray-500 text-center">
+       Уже маєте акаунт?{' '}
+      <Link
+       href="/login"
+      className="text-blue-600 font-medium hover:underline transition duration-200"
+      >
+       Увійти
+      </Link>
       </p>
+
     </main>
   );
 }

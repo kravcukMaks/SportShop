@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 
-let orders: any[] = []; // Тимчасове збереження в пам'яті сервера
+let orders: any[] = []; 
 
 export async function POST(req: Request) {
   const order = await req.json();

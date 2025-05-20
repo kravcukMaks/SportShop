@@ -23,7 +23,7 @@ export default function CheckoutPage() {
     setIsSubmitting(true);
 
     const newOrder = {
-      id: uuidv4(), // Генеруємо унікальний ID для замовлення
+      id: uuidv4(), 
       items: cart,
       total: totalPrice,
       date: new Date().toISOString(),

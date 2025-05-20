@@ -23,6 +23,6 @@ const UserSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// Якщо модель вже існує - використовуємо існуючу, інакше створюємо нову
+
 export default mongoose.models.User || mongoose.model('User', UserSchema);
 
