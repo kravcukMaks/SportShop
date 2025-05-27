@@ -22,22 +22,33 @@ export default function AccountSettingsPage() {
   const router = useRouter();
 
   useEffect(() => {
-    const storedUserData = localStorage.getItem('userData');
-    if (storedUserData) {
-      setUserData(JSON.parse(storedUserData));
+    try {
+      const stored = localStorage.getItem('userData');
+      if (stored) {
+        setUserData(JSON.parse(stored));
+      }
+    } catch (error) {
+      console.error('Не вдалося зчитати userData з localStorage:', error);
     }
   }, []);
 
+  const validateForm = () => {
+    const { firstName, lastName, email, password } = userData;
+    return firstName && lastName && email && password;
+  };
+
+  const handleChange = (field: keyof UserData) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUserData(prev => ({ ...prev, [field]: e.target.value }));
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-
-    if (!userData.firstName || !userData.lastName || !userData.email || !userData.password) {
+    if (!validateForm()) {
       toast.error('Будь ласка, заповніть всі поля!');
-      setIsLoading(false);
       return;
     }
 
+    setIsLoading(true);
     try {
       const response = await fetch('/api/user/update', {
         method: 'PUT',
@@ -49,88 +60,69 @@ export default function AccountSettingsPage() {
 
       if (response.ok) {
         localStorage.setItem('userData', JSON.stringify(userData));
-        toast.success(result.message);
+        toast.success(result.message || 'Дані оновлено успішно');
       } else {
         toast.error(result.error || 'Помилка при оновленні даних');
       }
-    } catch {
-      toast.error('Помилка при оновленні даних');
+    } catch (error) {
+      toast.error('Сталася помилка під час оновлення');
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <main className="p-8 max-w-4xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6 text-purple-800">Налаштування акаунта</h1>
+  <main className="px-6 py-10 max-w-3xl mx-auto text-white">
+    <h1 className="text-4xl font-extrabold mb-10 text-center text-gradient bg-gradient-to-r from-purple-500 to-amber-500 bg-clip-text text-transparent">
+      Налаштування акаунта
+    </h1>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div>
-          <label htmlFor="firstName" className="block text-purple-700">Ім’я</label>
+    <form
+      onSubmit={handleSubmit}
+      className="space-y-8 bg-[#1a1a1a] border border-[#333] rounded-2xl p-8 shadow-xl"
+    >
+      {[
+        { id: 'firstName', label: "Ім’я", type: 'text' },
+        { id: 'lastName', label: 'Прізвище', type: 'text' },
+        { id: 'email', label: 'Email', type: 'email' },
+        { id: 'password', label: 'Пароль', type: 'password' },
+      ].map(({ id, label, type }) => (
+        <div key={id}>
+          <label htmlFor={id} className="block text-sm text-gray-400 mb-2 font-medium">
+            {label}
+          </label>
           <input
-            type="text"
-            id="firstName"
-            value={userData.firstName}
-            onChange={(e) => setUserData({ ...userData, firstName: e.target.value })}
+            type={type}
+            id={id}
+            value={userData[id as keyof UserData]}
+            onChange={handleChange(id as keyof UserData)}
             required
-            className="w-full p-2 border border-amber-400 rounded focus:outline-none focus:ring-2 focus:ring-amber-500"
+            className="w-full px-4 py-3 rounded-xl bg-[#2a2a2a] border border-[#444] placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-amber-500 transition"
+            placeholder={`Введіть ${label.toLowerCase()}`}
           />
         </div>
+      ))}
 
-        <div>
-          <label htmlFor="lastName" className="block text-purple-700">Прізвище</label>
-          <input
-            type="text"
-            id="lastName"
-            value={userData.lastName}
-            onChange={(e) => setUserData({ ...userData, lastName: e.target.value })}
-            required
-            className="w-full p-2 border border-amber-400 rounded focus:outline-none focus:ring-2 focus:ring-amber-500"
-          />
-        </div>
+      <div className="flex flex-col sm:flex-row gap-4 pt-2">
+        <button
+          type="submit"
+          disabled={isLoading}
+          className={`w-full sm:w-auto bg-amber-500 hover:bg-amber-600 text-white font-semibold px-6 py-3 rounded-xl transition duration-200 ${
+            isLoading ? 'opacity-50 cursor-not-allowed' : ''
+          }`}
+        >
+          {isLoading ? 'Завантаження...' : 'Оновити дані'}
+        </button>
 
-        <div>
-          <label htmlFor="email" className="block text-purple-700">Email</label>
-          <input
-            type="email"
-            id="email"
-            value={userData.email}
-            onChange={(e) => setUserData({ ...userData, email: e.target.value })}
-            required
-            className="w-full p-2 border border-amber-400 rounded focus:outline-none focus:ring-2 focus:ring-amber-500"
-          />
-        </div>
-
-        <div>
-          <label htmlFor="password" className="block text-purple-700">Пароль</label>
-          <input
-            type="password"
-            id="password"
-            value={userData.password}
-            onChange={(e) => setUserData({ ...userData, password: e.target.value })}
-            required
-            className="w-full p-2 border border-amber-400 rounded focus:outline-none focus:ring-2 focus:ring-amber-500"
-          />
-        </div>
-
-        <div className="flex gap-4">
-          <button
-            type="submit"
-            className={`bg-amber-500 text-white px-4 py-2 rounded hover:bg-amber-600 transition duration-200 ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
-            disabled={isLoading}
-          >
-            {isLoading ? 'Завантаження...' : 'Оновити дані'}
-          </button>
-
-          <button
-            type="button"
-            onClick={() => router.push('/')}
-            className="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600 transition duration-200"
-          >
-            Повернутися до головного меню
-          </button>
-        </div>
-      </form>
-    </main>
-  );
+        <button
+          type="button"
+          onClick={() => router.push('/')}
+          className="w-full sm:w-auto bg-purple-600 hover:bg-purple-700 text-white font-semibold px-6 py-3 rounded-xl transition duration-200"
+        >
+          Повернутися до головного меню
+        </button>
+      </div>
+    </form>
+  </main>
+);
 }

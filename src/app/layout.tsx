@@ -21,7 +21,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: 'SportShop - Інтернет магазин',
+  title: 'SportShop',
   description: 'Товари для спорту.',
 };
 

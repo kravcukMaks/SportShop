@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
-import registerUser from '../services/authService';
-import User from '../models/User';
+import registerUser from '../../services/authService';
+import User from '../../models/User';
 
 jest.mock('../models/User');
 

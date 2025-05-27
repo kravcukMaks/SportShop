@@ -1,11 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-hot-toast';
 
 export default function AddProductPage() {
   const router = useRouter();
+
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -13,111 +14,91 @@ export default function AddProductPage() {
     imageUrl: '',
     category: '',
   });
+
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
+    const price = parseFloat(formData.price);
+    if (isNaN(price) || price <= 0) {
+      toast.error('Будь ласка, введіть коректну ціну');
+      setIsLoading(false);
+      return;
+    }
+
     try {
       const response = await fetch('/api/products/add', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...formData,
-          price: parseFloat(formData.price), 
-        }),
+        body: JSON.stringify({ ...formData, price }),
       });
 
       if (response.ok) {
         toast.success('Товар успішно додано!');
-        router.push('/'); 
+        router.push('/');
       } else {
         const data = await response.json();
-        toast.error(data.error || 'Помилка при додаванні товару');
+        toast.error(data?.error || 'Помилка при додаванні товару');
       }
     } catch (error) {
-      toast.error('Помилка при додаванні товару');
+      toast.error('Сталась помилка при додаванні товару');
+    } finally {
+      setIsLoading(false);
     }
-
-    setIsLoading(false);
   };
+
+  const fields = [
+    { name: 'title', label: 'Назва товару', type: 'text' },
+    { name: 'description', label: 'Опис', type: 'textarea' },
+    { name: 'price', label: 'Ціна (грн)', type: 'number' },
+    { name: 'imageUrl', label: 'Посилання на зображення', type: 'text' },
+    { name: 'category', label: 'Категорія', type: 'text' },
+  ] as const;
 
   return (
     <main className="p-8 max-w-4xl mx-auto">
       <h1 className="text-3xl font-bold mb-6">Додати новий товар</h1>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        <div>
-          <label className="block text-gray-700">Назва товару</label>
-          <input
-            type="text"
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
-            required
-            className="w-full p-2 border border-gray-300 rounded"
-          />
-        </div>
-
-        <div>
-          <label className="block text-gray-700">Опис</label>
-          <textarea
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            required
-            className="w-full p-2 border border-gray-300 rounded"
-          />
-        </div>
-
-        <div>
-          <label className="block text-gray-700">Ціна (грн)</label>
-          <input
-            type="number"
-            name="price"
-            value={formData.price}
-            onChange={handleChange}
-            required
-            className="w-full p-2 border border-gray-300 rounded"
-          />
-        </div>
-
-        <div>
-          <label className="block text-gray-700">Посилання на зображення</label>
-          <input
-            type="text"
-            name="imageUrl"
-            value={formData.imageUrl}
-            onChange={handleChange}
-            required
-            className="w-full p-2 border border-gray-300 rounded"
-          />
-        </div>
-
-        <div>
-          <label className="block text-gray-700">Категорія</label>
-          <input
-            type="text"
-            name="category"
-            value={formData.category}
-            onChange={handleChange}
-            required
-            className="w-full p-2 border border-gray-300 rounded"
-          />
-        </div>
+        {fields.map(({ name, label, type }) => (
+          <div key={name}>
+            <label htmlFor={name} className="block text-gray-700">{label}</label>
+            {type === 'textarea' ? (
+              <textarea
+                id={name}
+                name={name}
+                value={formData[name]}
+                onChange={handleChange}
+                required
+                className="w-full p-2 border border-gray-300 rounded"
+              />
+            ) : (
+              <input
+                id={name}
+                name={name}
+                type={type}
+                value={formData[name]}
+                onChange={handleChange}
+                required
+                className="w-full p-2 border border-gray-300 rounded"
+              />
+            )}
+          </div>
+        ))}
 
         <button
           type="submit"
-          className={`bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
           disabled={isLoading}
+          className={`bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-200 ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
         >
           {isLoading ? 'Додаємо...' : 'Додати товар'}
         </button>

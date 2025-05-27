@@ -1,5 +1,5 @@
 import { renderHook, act } from '@testing-library/react';
-import { CartProvider, useCart } from '../context/CartContext';
+import { CartProvider, useCart } from '../../context/CartContext';
 
 const wrapper = ({ children }: { children: React.ReactNode }) => (
   <CartProvider>{children}</CartProvider>

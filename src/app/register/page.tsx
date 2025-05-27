@@ -48,54 +48,54 @@ export default function RegisterPage() {
   };
 
   return (
-    <main className="max-w-xl mx-auto p-8 bg-white rounded-2xl shadow-md mt-12">
+    <main className="max-w-xl mx-auto p-8 bg-black rounded-2xl shadow-md mt-12">
     <h1 className="text-4xl font-extrabold mb-8 text-center text-gray-800">
     Реєстрація
     </h1>
 
       <form className="space-y-4" onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="firstName" className="block text-gray-700">Ім’я</label>
+          <label htmlFor="firstName" className="block text-black-700">Ім’я</label>
           <input
             type="text"
             id="firstName"
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
             required
-            className="w-full p-2 border border-gray-300 rounded"
+            className="w-full p-2 border border-black-300 rounded"
           />
         </div>
         <div>
-          <label htmlFor="lastName" className="block text-gray-700">Прізвище</label>
+          <label htmlFor="lastName" className="block text-black-700">Прізвище</label>
           <input
             type="text"
             id="lastName"
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
             required
-            className="w-full p-2 border border-gray-300 rounded"
+            className="w-full p-2 border border-black-300 rounded"
           />
         </div>
         <div>
-          <label htmlFor="email" className="block text-gray-700">Email</label>
+          <label htmlFor="email" className="block text-black-700">Email</label>
           <input
             type="email"
             id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="w-full p-2 border border-gray-300 rounded"
+            className="w-full p-2 border border-black-300 rounded"
           />
         </div>
         <div>
-          <label htmlFor="password" className="block text-gray-700">Пароль</label>
+          <label htmlFor="password" className="block text-black-700">Пароль</label>
           <input
             type="password"
             id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="w-full p-2 border border-gray-300 rounded"
+            className="w-full p-2 border border-black-300 rounded"
           />
         </div>
         <button
@@ -107,7 +107,7 @@ export default function RegisterPage() {
 
       </form>
 
-      <p className="mt-6 text-sm text-gray-500 text-center">
+      <p className="mt-6 text-sm text-black-500 text-center">
        Уже маєте акаунт?{' '}
       <Link
        href="/login"

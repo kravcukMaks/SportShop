@@ -6,7 +6,12 @@ export async function POST(req: Request) {
   try {
     await connectDB();
 
-    const { email, password } = await req.json();
+    const body = await req.json();
+    const { email, password } = body;
+
+    if (!email || !password) {
+      return NextResponse.json({ message: 'Email і пароль обовʼязкові' }, { status: 400 });
+    }
 
     const user = await User.findOne({ email });
 
@@ -14,13 +19,16 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: 'Користувача не знайдено' }, { status: 404 });
     }
 
-    if (user.password !== password) { 
+    const isPasswordValid = user.password === password;
+
+    if (!isPasswordValid) {
       return NextResponse.json({ message: 'Невірний пароль' }, { status: 401 });
     }
 
     return NextResponse.json({ message: 'Вхід успішний' }, { status: 200 });
-  } catch (error) {
-    console.error('Login error:', error);
+  } catch (err) {
+    console.error('Login error:', err);
     return NextResponse.json({ message: 'Помилка сервера' }, { status: 500 });
   }
 }
+

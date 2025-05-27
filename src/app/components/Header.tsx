@@ -4,25 +4,27 @@ import Link from 'next/link';
 
 export default function Header() {
   return (
-    <header className="flex items-center justify-between px-8 py-4 shadow-md bg-white">
-      {/* Логотип */}
-      <div className="text-2xl font-bold text-gray-800">
-        <Link href="/">SportShop</Link>
+    <header className="bg-white shadow-md">
+      <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+        {/* Логотип */}
+        <Link href="/" className="text-2xl font-bold text-gray-800 hover:text-black transition-colors">
+          SportShop
+        </Link>
+
+        {/* Навігація */}
+        <nav className="flex items-center space-x-6 text-gray-600">
+          <Link href="/" className="hover:text-black transition-colors">Головна</Link>
+          <Link href="/catalog" className="hover:text-black transition-colors">Каталог</Link>
+          <Link href="/cart" className="hover:text-black transition-colors">Кошик</Link>
+          <Link href="/contact" className="hover:text-black transition-colors">Контакти</Link>
+          <Link href="/orders">
+            <span className="ml-2 bg-gray-100 hover:bg-gray-200 text-black px-4 py-2 rounded transition-colors">
+              Мої замовлення
+            </span>
+          </Link>
+        </nav>
       </div>
-
-      {/* Навігація */}
-      <nav className="space-x-6 text-gray-600">
-        <Link href="/" className="hover:text-black">Головна</Link>
-        <Link href="/catalog" className="hover:text-black">Каталог</Link>
-        <Link href="/cart" className="hover:text-black">Кошик</Link>
-        <Link href="/contact" className="hover:text-black">Контакти</Link>
-        <Link href="/orders">
-      <button className="ml-4 bg-white text-black px-4 py-2 rounded hover:bg-gray-200">
-        Мої замовлення
-      </button>
-</Link>
-
-      </nav>
     </header>
   );
 }
+

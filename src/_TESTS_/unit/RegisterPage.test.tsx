@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import RegisterPage from '../app/register/page';
+import RegisterPage from '../../app/register/page';
 import { useRouter } from 'next/navigation';
 
 jest.mock('next/navigation', () => ({ useRouter: () => ({ push: jest.fn() }) }));

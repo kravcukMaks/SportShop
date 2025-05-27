@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import ProductCard from '../app/components/ProductCard';
+import ProductCard from '../../app/components/ProductCard';
 
 describe('ProductCard', () => {
   const mockProduct = {

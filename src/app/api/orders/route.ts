@@ -1,11 +1,38 @@
 import { NextResponse } from 'next/server';
 
-let orders: any[] = []; 
+interface Order {
+  id: string;
+  items: Array<{
+    productId: string;
+    quantity: number;
+  }>;
+  customerName: string;
+  address: string;
+  totalAmount: number;
+}
+
+let orders: Order[] = [];
 
 export async function POST(req: Request) {
-  const order = await req.json();
-  orders.push(order);
-  return NextResponse.json({ message: 'Замовлення збережено' });
+  try {
+    const order: Order = await req.json();
+
+    if (
+      !order ||
+      !order.items?.length ||
+      typeof order.customerName !== 'string' ||
+      typeof order.address !== 'string'
+    ) {
+      return NextResponse.json({ message: 'Невірний формат замовлення' }, { status: 400 });
+    }
+
+    orders.push(order);
+
+    return NextResponse.json({ message: 'Замовлення збережено' }, { status: 201 });
+  } catch (error) {
+    console.error('POST order error:', error);
+    return NextResponse.json({ message: 'Помилка сервера' }, { status: 500 });
+  }
 }
 
 export async function GET() {

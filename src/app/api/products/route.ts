@@ -8,10 +8,14 @@ export async function GET() {
 
     const products = await Product.find();
 
-    return NextResponse.json(products);
+    return NextResponse.json(products, { status: 200 });
   } catch (error) {
     console.error('Помилка при отриманні товарів:', error);
-    return NextResponse.json({ error: 'Помилка при отриманні товарів' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Помилка при отриманні товарів' },
+      { status: 500 }
+    );
   }
 }
+
     
