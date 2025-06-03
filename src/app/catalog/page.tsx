@@ -5,6 +5,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import ProductCard from '../components/ProductCard';
 import { useCart } from '../../context/CartContext';
+import CategoryFilter from "../components/CategoryFilter";
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 
@@ -13,6 +14,7 @@ export default function HomePage() {
   const [products, setProducts] = useState<any[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState<string>('Усі');
   const { addToCart } = useCart();
   const router = useRouter();
 
@@ -38,21 +40,27 @@ export default function HomePage() {
     fetchProducts();
   }, []);
 
-  // Фільтрація товарів
+  // Фільтрація товарів по категорії та пошуку
   useEffect(() => {
-    if (searchQuery === '') {
-      setFilteredProducts(products);
-    } else {
-      const lowerQuery = searchQuery.toLowerCase();
-      setFilteredProducts(
-        products.filter(
-          (product) =>
-            product.title.toLowerCase().includes(lowerQuery) ||
-            product.description.toLowerCase().includes(lowerQuery)
-        )
+    let filtered = [...products];
+
+    if (selectedCategory !== 'Усі') {
+      filtered = filtered.filter(
+        (product) => product.category.toLowerCase() === selectedCategory.toLowerCase()
       );
     }
-  }, [searchQuery, products]);
+
+    if (searchQuery !== '') {
+      const lowerQuery = searchQuery.toLowerCase();
+      filtered = filtered.filter(
+        (product) =>
+          product.title.toLowerCase().includes(lowerQuery) ||
+          product.description.toLowerCase().includes(lowerQuery)
+      );
+    }
+
+    setFilteredProducts(filtered);
+  }, [searchQuery, products, selectedCategory]);
 
   // Додавання до кошика
   const handleAddToCart = (product: any) => {
@@ -76,9 +84,9 @@ export default function HomePage() {
           🏀 SportShop – Каталог
         </motion.h1>
 
-        {/* Пошук */}
+        {/* Пошук і фільтр категорій */}
         <motion.div
-          className="mb-10 text-center"
+          className="mb-10 flex flex-col sm:flex-row justify-center items-center gap-4"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
@@ -89,6 +97,12 @@ export default function HomePage() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="border border-gray-300 rounded-lg px-5 py-3 w-80 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
+          />
+
+          <CategoryFilter
+            categories={['Усі', 'Протеїни', 'Креатин', 'BCAA']}
+            selectedCategory={selectedCategory}
+            onSelectCategory={setSelectedCategory}
           />
         </motion.div>
 

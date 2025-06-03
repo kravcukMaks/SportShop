@@ -33,6 +33,10 @@ const ProductSchema: Schema<IProduct> = new Schema(
     category: {
       type: String,
       required: [true, '📦 Категорія обов’язкова'],
+      enum: {
+      values: ['протеїни', 'креатин', 'bcaa'],
+      message: 'Неприпустима категорія: {VALUE}',
+      },
       lowercase: true,
       trim: true,
     },
