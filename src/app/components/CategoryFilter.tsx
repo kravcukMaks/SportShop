@@ -1,4 +1,3 @@
-// components/CategoryFilter.tsx
 interface CategoryFilterProps {
   categories: string[];
   selectedCategory: string;

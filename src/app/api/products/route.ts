@@ -12,7 +12,7 @@ export async function GET(req: Request) {
     let products;
 
     if (category) {
-      // Фільтруємо за категорією
+      // Фільтрація за категорією
       products = await Product.find({ category: category.toLowerCase() });
     } else {
       // Якщо категорія не вказана — повертаємо всі товари
